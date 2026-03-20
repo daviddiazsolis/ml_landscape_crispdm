@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom scrollbar for technical feel */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #27272a; /* zinc-800 */
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46; /* zinc-700 */
+}
+
+@keyframes road-flow {
+  from { background-position: 0 0; }
+  to { background-position: 100px 0; }
+}
+
+.animate-road-flow {
+  animation: road-flow 2s linear infinite;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 10s linear infinite;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-[#050505] text-slate-300 font-sans antialiased;
+  }
+}
+
+.glass-panel {
+  @apply bg-[#0a0a0a] border border-white/5 rounded-none;
+}
+
+.playground-card {
+  @apply transition-all duration-200 cursor-pointer border-l-4;
+}
+
+.playground-card.active {
+  @apply bg-white/5 border-orange-500;
+}
+
+.neon-orange {
+  @apply text-[#ff6b00] drop-shadow-[0_0_8px_rgba(255,107,0,0.4)];
+}
+
+.neon-cyan {
+  @apply text-[#00d1ff] drop-shadow-[0_0_8px_rgba(0,209,255,0.4)];
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 60s linear infinite;
+}
+
+@keyframes road-flow {
+  from { background-position: 0 0; }
+  to { background-position: -100px 0; }
+}
+
+.animate-road-flow {
+  animation: road-flow 2s linear infinite;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ff6b00;
+}
