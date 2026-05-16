@@ -3619,7 +3619,7 @@ export default function App() {
 
         <div className="mt-12 pt-8 border-t border-zinc-800 w-full flex justify-between items-center">
           <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em]">
-            Kernel: v2.0.4-LTS // User: {process.env.USER_EMAIL || 'ANONYMOUS'}
+            Kernel: v2.0.4-LTS // User: ANONYMOUS
           </div>
           <div className="flex gap-6 text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
             <span className="text-emerald-500/50">System Stable</span>
