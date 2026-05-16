@@ -1672,72 +1672,6 @@ const ProjectEffortSection = ({ language }: { language: Language }) => {
   );
 };
 
-const MLSystemArchitecture = ({ language }: { language: Language }) => {
-  const t = translations[language].iceberg;
-
-  return (
-    <div className="py-20 px-8 bg-zinc-950">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h3 className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] mb-4">{t.subtitle}</h3>
-          <h2 className="text-3xl font-bold text-white uppercase tracking-tight">
-            {t.icebergTitle.part1} <span className="text-emerald-500">{t.icebergTitle.part2}</span> {t.icebergTitle.part3}
-          </h2>
-          <p className="text-zinc-500 text-xs mt-4 max-w-xl mx-auto">
-            {t.description}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-6 grid-rows-4 gap-2 h-[400px] font-mono text-[9px] uppercase tracking-tighter">
-          {/* Configuration */}
-          <div className="col-span-1 row-span-1 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.config}</div>
-          
-          {/* Data Collection */}
-          <div className="col-span-2 row-span-1 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.dataCollection}</div>
-          
-          {/* Feature Extraction */}
-          <div className="col-span-1 row-span-2 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.featureExtraction}</div>
-          
-          {/* Data Verification */}
-          <div className="col-span-2 row-span-1 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.dataVerification}</div>
-
-          {/* Machine Learning Code (The Small Box) */}
-          <div className="col-span-1 row-span-1 bg-emerald-500 flex items-center justify-center text-black font-bold p-2 text-center shadow-[0_0_30px_rgba(16,185,129,0.3)] rounded-xl">{t.mlCode}</div>
-
-          {/* Analysis Tools */}
-          <div className="col-span-1 row-span-2 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.analysisTools}</div>
-
-          {/* Process Management */}
-          <div className="col-span-2 row-span-1 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.processMgmt}</div>
-
-          {/* Serving Infrastructure */}
-          <div className="col-span-2 row-span-2 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.servingInfra}</div>
-
-          {/* Monitoring */}
-          <div className="col-span-2 row-span-1 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.monitoring}</div>
-          
-          {/* Resource Management */}
-          <div className="col-span-1 row-span-1 bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-500 p-2 text-center rounded-xl">{t.resourceMgmt}</div>
-        </div>
-
-        <div className="mt-12 grid md:grid-cols-3 gap-8">
-          <div className="space-y-2">
-            <h4 className="text-xs font-bold text-white uppercase">{t.debtTitle}</h4>
-            <p className="text-[11px] text-zinc-500 leading-relaxed">{t.debtDesc}</p>
-          </div>
-          <div className="space-y-2">
-            <h4 className="text-xs font-bold text-white uppercase">{t.infraTitle}</h4>
-            <p className="text-[11px] text-zinc-500 leading-relaxed">{t.infraDesc}</p>
-          </div>
-          <div className="space-y-2">
-            <h4 className="text-xs font-bold text-white uppercase">{t.rigorTitle}</h4>
-            <p className="text-[11px] text-zinc-500 leading-relaxed">{t.rigorDesc}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 const Header = ({ viewMode, setViewMode, language }: {
   viewMode: ViewMode,
   setViewMode: (m: ViewMode) => void,
@@ -3225,8 +3159,13 @@ const FrameworkSection = ({ activeId, setActiveId, onHover, language }: { active
       {/* NEW: Project Effort Visualization */}
       <ProjectEffortSection language={language} />
 
-      {/* NEW: ML System Architecture (Hidden Costs) */}
-      <MLSystemArchitecture language={language} />
+      {/* KDD: Sorting Game + Quiz (relocated from Lab to align with CRISP-DM vs KDD discussion below) */}
+      <div className="py-16 px-8 bg-zinc-950 border-t border-zinc-800">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12">
+          <KDDSortingGame language={language} />
+          <KDDQuiz language={language} />
+        </div>
+      </div>
 
       {/* NEW: Continuous Learning Section (Full Width) */}
       <div className="border-b border-white/5">
@@ -3410,11 +3349,6 @@ const LabSection = ({ language }: { language: Language }) => {
 
         <div className="grid lg:grid-cols-2 gap-12 mb-12">
            <DataTypeClassifier language={language} />
-           <KDDSortingGame language={language} />
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-12 mb-12">
-           <KDDQuiz language={language} />
         </div>
       </div>
     </div>
