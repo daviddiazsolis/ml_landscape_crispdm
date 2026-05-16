@@ -33,7 +33,7 @@ import {
   Github
 } from 'lucide-react';
 import { motion, AnimatePresence, Reorder } from 'motion/react';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { TranslationWidget } from './components/TranslationWidget';
 
 // --- Types ---
@@ -1806,6 +1806,10 @@ const Header = ({ viewMode, setViewMode, language }: {
 
 const CircularVisualizer = ({ activeIndex, onSelect, onHover, language }: { activeIndex: number, onSelect: (id: StageId) => void, onHover: (id: StageId | null) => void, language: Language }) => {
   const [isHubHovered, setIsHubHovered] = useState(false);
+  const { theme } = useTheme();
+  const ink = theme === 'light' ? '15, 23, 42' : '255, 255, 255';
+  const inkSolid = theme === 'light' ? '#18181b' : 'white';
+  const surfaceSolid = theme === 'light' ? '#f4f4f5' : '#09090b';
   const radius = 140;
   const outerRadius = 185;
   const centerX = 200;
@@ -1856,14 +1860,14 @@ const CircularVisualizer = ({ activeIndex, onSelect, onHover, language }: { acti
               <Database size={48} strokeWidth={1.5} />
             </motion.div>
           </foreignObject>
-          <text x="30" y="70" fill={isHubHovered ? "rgba(16,185,129,0.8)" : "rgba(255,255,255,0.4)"} fontSize="9" fontWeight="bold" textAnchor="middle" className="font-mono uppercase tracking-[0.3em] transition-colors duration-300">{translations[language].framework.dataHub}</text>
+          <text x="30" y="70" fill={isHubHovered ? "rgba(16,185,129,0.8)" : `rgba(${ink},0.55)`} fontSize="9" fontWeight="bold" textAnchor="middle" className="font-mono uppercase tracking-[0.3em] transition-colors duration-300">{translations[language].framework.dataHub}</text>
         </g>
 
         {/* Outer Animated Circle with Arrows */}
         <g>
           <motion.circle 
             cx={centerX} cy={centerY} r={outerRadius} 
-            fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" 
+            fill="none" stroke={`rgba(${ink},0.18)`} strokeWidth="3"
             strokeDasharray="15 15"
             animate={{ rotate: 360 }}
             transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
@@ -1876,7 +1880,7 @@ const CircularVisualizer = ({ activeIndex, onSelect, onHover, language }: { acti
               <path 
                 key={deg}
                 d={`M ${x} ${y} L ${x + 1 * Math.cos(a + 0.1)} ${y + 1 * Math.sin(a + 0.1)}`}
-                stroke="rgba(255,255,255,0.3)"
+                stroke={`rgba(${ink},0.4)`}
                 strokeWidth="4"
                 transform={`rotate(${deg + 90}, ${x}, ${y})`}
               />
@@ -1896,7 +1900,7 @@ const CircularVisualizer = ({ activeIndex, onSelect, onHover, language }: { acti
               key={`forward-${i}`}
               d={`M ${start.x} ${start.y} A ${radius+5} ${radius+5} 0 0 1 ${end.x} ${end.y}`}
               fill="none"
-              stroke={isActive ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.05)"}
+              stroke={isActive ? `rgba(${ink},0.3)` : `rgba(${ink},0.1)`}
               strokeWidth="2"
               className="transition-all duration-500"
             />
@@ -1932,7 +1936,7 @@ const CircularVisualizer = ({ activeIndex, onSelect, onHover, language }: { acti
               <path 
                 d={d}
                 fill="none"
-                stroke={isActive ? s.color : "rgba(255,255,255,0.05)"}
+                stroke={isActive ? s.color : `rgba(${ink},0.1)`}
                 strokeWidth={isActive ? "2" : "1"}
                 strokeDasharray={isActive ? "none" : "4 4"}
                 className="transition-all duration-500"
@@ -1973,8 +1977,8 @@ const CircularVisualizer = ({ activeIndex, onSelect, onHover, language }: { acti
               <motion.circle
                 cx={x} cy={y}
                 r={isActive ? 30 : 24}
-                fill={isActive ? s.color : "#09090b"}
-                stroke={isActive ? "white" : "rgba(255,255,255,0.1)"}
+                fill={isActive ? s.color : surfaceSolid}
+                stroke={isActive ? inkSolid : `rgba(${ink},0.2)`}
                 strokeWidth={isActive ? 3 : 1.5}
                 animate={{ r: isActive ? 30 : 24 }}
                 className="transition-all duration-300"
@@ -1989,7 +1993,7 @@ const CircularVisualizer = ({ activeIndex, onSelect, onHover, language }: { acti
                 x={x} 
                 y={y + (isActive ? 42 : 36)} 
                 textAnchor="middle" 
-                fill={isActive ? "white" : "rgba(255,255,255,0.4)"}
+                fill={isActive ? inkSolid : `rgba(${ink},0.55)`}
                 fontSize="8"
                 className={`font-mono uppercase tracking-tighter transition-all ${isActive ? 'font-bold' : ''}`}
               >
