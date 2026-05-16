@@ -220,6 +220,13 @@ const translations = {
       whatIsKdd: "What is KDD?",
       kddDesc: "KDD is a multi-step process focused on the technical extraction of knowledge from data. It emphasizes the data transformation pipeline.",
       kddSteps: ["Selection (Target Data)", "Preprocessing (Cleaning)", "Transformation (Reduction)", "Data Mining (Pattern Search)", "Interpretation (Evaluation)"],
+      kddStepsDetail: [
+        "Identify the data sources, select the relevant tables and rows, and define the target subset. The output is a focused dataset aligned with the discovery goal.",
+        "Clean the selected data: handle missing values, remove noise and outliers, and resolve inconsistencies. The goal is a reliable dataset that downstream steps can trust.",
+        "Reduce dimensionality and project the data into useful representations — feature engineering, normalization, encoding, PCA. Fewer, better variables.",
+        "Apply the actual mining algorithm (clustering, classification, association rules, etc.) to extract patterns. This is the step most people picture when they hear 'data mining'.",
+        "Interpret and evaluate the patterns. Are they meaningful? Statistically valid? Useful for the original goal? Knowledge is only knowledge if it survives this filter."
+      ],
       keyDifferences: "Key Differences",
       bizFocusTitle: "Business Focus",
       bizFocusDesc: "CRISP-DM starts with Business Understanding. KDD starts with Data Selection.",
@@ -802,6 +809,13 @@ const translations = {
       whatIsKdd: "¿Qué es KDD?",
       kddDesc: "KDD es un proceso de varios pasos centrado en la extracción técnica de conocimiento a partir de datos. Enfatiza el pipeline de transformación de datos.",
       kddSteps: ["Selección (Datos Objetivo)", "Pre-procesamiento (Limpieza)", "Transformación (Reducción)", "Minería de Datos (Búsqueda de Patrones)", "Interpretación (Evaluación)"],
+      kddStepsDetail: [
+        "Identifica las fuentes de datos, selecciona las tablas y filas relevantes y define el subconjunto objetivo. El resultado es un dataset enfocado en el objetivo de descubrimiento.",
+        "Limpia los datos seleccionados: maneja valores faltantes, elimina ruido y outliers, y resuelve inconsistencias. La meta es un dataset confiable para los siguientes pasos.",
+        "Reduce la dimensionalidad y proyecta los datos en representaciones útiles — ingeniería de variables, normalización, codificación, PCA. Menos variables, pero mejores.",
+        "Aplica el algoritmo de minería propiamente tal (clustering, clasificación, reglas de asociación, etc.) para extraer patrones. Este es el paso que la mayoría imagina al escuchar 'minería de datos'.",
+        "Interpreta y evalúa los patrones. ¿Son significativos? ¿Estadísticamente válidos? ¿Útiles para el objetivo original? El conocimiento solo es conocimiento si supera este filtro."
+      ],
       keyDifferences: "Diferencias Clave",
       bizFocusTitle: "Enfoque de Negocio",
       bizFocusDesc: "CRISP-DM comienza con el Entendimiento del Negocio. KDD comienza con la Selección de Datos.",
@@ -3074,6 +3088,84 @@ const MaturitySection = ({ language }: { language: Language }) => {
 };
 
 
+const KDDPipelineDiagram = ({ language }: { language: Language }) => {
+  const t = translations[language].framework;
+  const [activeStep, setActiveStep] = useState(0);
+  const icons = [Database, Search, Layers, Cpu, CheckCircle2];
+
+  return (
+    <div className="mt-16 p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl">
+      <h4 className="text-emerald-500 font-bold text-xs uppercase tracking-widest mb-6 text-center">
+        {t.whatIsKdd}
+      </h4>
+
+      <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-2">
+        {t.kddSteps.map((step: string, i: number) => {
+          const Icon = icons[i] ?? Database;
+          const isActive = activeStep === i;
+          return (
+            <React.Fragment key={i}>
+              <button
+                type="button"
+                onMouseEnter={() => setActiveStep(i)}
+                onFocus={() => setActiveStep(i)}
+                onClick={() => setActiveStep(i)}
+                className={`flex-1 flex flex-col items-center text-center p-4 border rounded-xl cursor-pointer transition-all duration-200 outline-none ${
+                  isActive
+                    ? 'bg-emerald-500/10 border-emerald-500/60 -translate-y-1 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]'
+                    : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'
+                }`}
+              >
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-colors ${
+                  isActive
+                    ? 'bg-emerald-500 text-black border border-emerald-400'
+                    : 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30'
+                }`}>
+                  <Icon size={18} />
+                </div>
+                <span className="text-[9px] font-mono text-emerald-500 mb-1">0{i + 1}</span>
+                <span className={`text-[11px] font-semibold leading-tight ${isActive ? 'text-zinc-100' : 'text-zinc-300'}`}>
+                  {step}
+                </span>
+              </button>
+              {i < t.kddSteps.length - 1 && (
+                <div className={`flex items-center justify-center shrink-0 rotate-90 md:rotate-0 transition-colors ${
+                  activeStep === i || activeStep === i + 1 ? 'text-emerald-500' : 'text-zinc-600'
+                }`}>
+                  <ArrowRight size={18} />
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeStep}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.2 }}
+          className="mt-8 p-6 bg-zinc-950 border border-zinc-800 rounded-xl"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[9px] font-mono text-emerald-500 uppercase tracking-widest">
+              PHASE_0{activeStep + 1}
+            </span>
+            <h5 className="text-sm font-bold text-zinc-100 uppercase tracking-wider">
+              {t.kddSteps[activeStep]}
+            </h5>
+          </div>
+          <p className="text-[12px] text-zinc-400 leading-relaxed">
+            {t.kddStepsDetail[activeStep]}
+          </p>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+};
+
 const FrameworkSection = ({ activeId, setActiveId, onHover, language }: { activeId: StageId, setActiveId: (id: StageId) => void, onHover: (id: StageId | null) => void, language: Language }) => {
   const t = translations[language];
   const activeStage = useMemo(() => STAGES.find(s => s.id === activeId)!, [activeId]);
@@ -3222,31 +3314,8 @@ const FrameworkSection = ({ activeId, setActiveId, onHover, language }: { active
           </div>
         </div>
 
-        {/* KDD Pipeline Diagram — linear 5-step flow */}
-        <div className="mt-16 p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl">
-          <h4 className="text-emerald-500 font-bold text-xs uppercase tracking-widest mb-6 text-center">{t.framework.whatIsKdd}</h4>
-          <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-2">
-            {t.framework.kddSteps.map((step: string, i: number) => {
-              const Icon = [Database, Search, Layers, Cpu, CheckCircle2][i] ?? Database;
-              return (
-                <React.Fragment key={i}>
-                  <div className="flex-1 flex flex-col items-center text-center p-4 bg-zinc-950 border border-zinc-800 rounded-xl">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 mb-3">
-                      <Icon size={18} />
-                    </div>
-                    <span className="text-[9px] font-mono text-emerald-500 mb-1">0{i + 1}</span>
-                    <span className="text-[11px] font-semibold text-zinc-300 leading-tight">{step}</span>
-                  </div>
-                  {i < t.framework.kddSteps.length - 1 && (
-                    <div className="flex items-center justify-center text-zinc-600 shrink-0 rotate-90 md:rotate-0">
-                      <ArrowRight size={18} />
-                    </div>
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </div>
-        </div>
+        {/* KDD Pipeline Diagram — linear 5-step flow with hover detail */}
+        <KDDPipelineDiagram language={language} />
       </div>
 
       {/* KDD: Sorting Game + Quiz — placed right after the CRISP-DM vs KDD theory so the games make sense */}
