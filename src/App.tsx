@@ -33,6 +33,8 @@ import {
   Github
 } from 'lucide-react';
 import { motion, AnimatePresence, Reorder } from 'motion/react';
+import { ThemeProvider } from './context/ThemeContext';
+import { TranslationWidget } from './components/TranslationWidget';
 
 // --- Types ---
 
@@ -1736,22 +1738,21 @@ const MLSystemArchitecture = ({ language }: { language: Language }) => {
     </div>
   );
 };
-const Header = ({ viewMode, setViewMode, language, setLanguage }: { 
-  viewMode: ViewMode, 
+const Header = ({ viewMode, setViewMode, language }: {
+  viewMode: ViewMode,
   setViewMode: (m: ViewMode) => void,
   language: Language,
-  setLanguage: (l: Language) => void
 }) => {
   const t = translations[language].header;
   
   return (
-    <header className="py-6 px-8 border-b border-zinc-800 flex flex-col md:flex-row items-center justify-between bg-zinc-950 gap-4">
+    <header className="py-6 px-8 border-b border-zinc-800 flex flex-col md:flex-row items-center justify-between bg-zinc-950 gap-4 md:pl-56">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 bg-emerald-500 flex items-center justify-center rounded-xl">
           <Layers className="text-black" size={24} />
         </div>
         <div>
-          <h1 className="text-xl font-bold tracking-widest text-white uppercase flex items-center gap-2">
+          <h1 className="text-xl font-bold tracking-widest text-zinc-100 uppercase flex items-center gap-2">
             {t.title} <span className="text-emerald-500">{t.playground}</span>
           </h1>
           <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">
@@ -1761,21 +1762,6 @@ const Header = ({ viewMode, setViewMode, language, setLanguage }: {
       </div>
 
       <div className="flex items-center gap-6">
-        <div className="flex bg-zinc-950 p-1 rounded-lg border border-zinc-800">
-          <button 
-            onClick={() => setLanguage('en')}
-            className={`px-3 py-1 text-[10px] font-mono uppercase tracking-widest transition-all rounded-md ${language === 'en' ? 'bg-zinc-800 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
-          >
-            EN
-          </button>
-          <button 
-            onClick={() => setLanguage('es')}
-            className={`px-3 py-1 text-[10px] font-mono uppercase tracking-widest transition-all rounded-md ${language === 'es' ? 'bg-zinc-800 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
-          >
-            ES
-          </button>
-        </div>
-
         <div className="flex bg-zinc-900/50 p-1 rounded-xl border border-zinc-800 overflow-x-auto max-w-full">
           <button 
             onClick={() => setViewMode('maturity')}
@@ -3515,18 +3501,26 @@ const ResourcesSection = ({ language }: { language: Language }) => {
   );
 };
 
-export default function App() {
+function AppShell() {
   const [viewMode, setViewMode] = useState<ViewMode>('maturity');
   const [activeId, setActiveId] = useState<StageId>('business');
   const [hoverId, setHoverId] = useState<StageId | null>(null);
-  const [language, setLanguage] = useState<Language>('en');
-  
+  const [language, setLanguage] = useState<Language>(() => {
+    const saved = localStorage.getItem('app_lang');
+    return saved === 'es' || saved === 'en' ? saved : 'en';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app_lang', language);
+  }, [language]);
+
   const effectiveActiveId = hoverId || activeId;
   const t = translations[language].footer;
-  
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-300 font-sans selection:bg-emerald-500 selection:text-black">
-      <Header viewMode={viewMode} setViewMode={setViewMode} language={language} setLanguage={setLanguage} />
+      <TranslationWidget language={language} setLanguage={setLanguage} />
+      <Header viewMode={viewMode} setViewMode={setViewMode} language={language} />
 
       <main className="max-w-7xl mx-auto flex flex-col min-h-[calc(100vh-89px)]">
         
@@ -3586,44 +3580,34 @@ export default function App() {
 
       </main>
 
-      <footer className="py-8 px-8 border-t border-zinc-800 bg-zinc-950 flex flex-col items-center text-center">
-        <div className="mb-4">
-          <p className="text-white text-lg font-medium">{t.created} <span className="font-bold">David Díaz Ph.D.</span></p>
-          <p className="text-zinc-500 text-[10px] italic mt-1">{t.attribution}</p>
-        </div>
-        
-        <div className="flex gap-8 mt-4">
-          <a 
-            href="https://daviddiazsolis.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-emerald-500 hover:text-emerald-400 transition-colors group"
-          >
-            <div className="w-5 h-5 flex items-center justify-center border border-emerald-500/30 rounded-full group-hover:border-emerald-400">
-              <Globe size={10} />
-            </div>
-            <span className="text-sm font-mono tracking-tight">{t.website}</span>
-          </a>
-          <a 
-            href="https://github.com/daviddiazsolis" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-emerald-500 hover:text-emerald-400 transition-colors group"
-          >
-            <div className="w-5 h-5 flex items-center justify-center border border-emerald-500/30 rounded-full group-hover:border-emerald-400">
-              <Github size={10} />
-            </div>
-            <span className="text-sm font-mono tracking-tight">{t.github}</span>
-          </a>
-        </div>
+      <footer className="bg-zinc-950 text-zinc-400 py-16 mt-24 border-t border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+          <p className="text-zinc-300 text-lg">
+            {t.created} <strong className="text-zinc-100 font-bold">David Díaz Ph.D.</strong>
+          </p>
 
-        <div className="mt-12 pt-8 border-t border-zinc-800 w-full flex justify-between items-center">
-          <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em]">
-            Kernel: v2.0.4-LTS // User: ANONYMOUS
-          </div>
-          <div className="flex gap-6 text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
-            <span className="text-emerald-500/50">System Stable</span>
-            <span>Latency: 14ms</span>
+          <p className="text-zinc-500 italic">{t.attribution}</p>
+
+          <div className="flex justify-center items-center gap-8 pt-4">
+            <a
+              href="https://daviddiazsolis.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-emerald-500 hover:text-emerald-400 transition-colors font-medium"
+            >
+              <Globe className="w-5 h-5" />
+              <span>daviddiazsolis.com</span>
+            </a>
+
+            <a
+              href="https://github.com/daviddiazsolis"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-emerald-500 hover:text-emerald-400 transition-colors font-medium"
+            >
+              <Github className="w-5 h-5" />
+              <span>GitHub</span>
+            </a>
           </div>
         </div>
       </footer>
@@ -3638,5 +3622,13 @@ export default function App() {
         }
       `}} />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppShell />
+    </ThemeProvider>
   );
 }

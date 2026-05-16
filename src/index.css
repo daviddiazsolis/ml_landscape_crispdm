@@ -50,9 +50,60 @@
   }
 }
 
+html.light body {
+  @apply bg-[#fafafa] text-slate-700;
+}
+
 .glass-panel {
   @apply bg-[#0a0a0a] border border-white/5 rounded-none;
 }
+
+html.light .glass-panel {
+  @apply bg-white border-black/5;
+}
+
+/* ── Light / presentation mode ──────────────────────────────────────────────
+   Flips zinc + slate palettes so every bg-zinc-* / text-slate-* utility
+   inverts automatically without component changes. Accents (emerald/cyan/
+   orange/purple/rose) are kept vibrant; only neutrals invert. */
+html.light {
+  /* Zinc — fully inverted */
+  --color-zinc-950: #fafafa;
+  --color-zinc-900: #f4f4f5;
+  --color-zinc-800: #e4e4e7;
+  --color-zinc-700: #d4d4d8;
+  --color-zinc-600: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-400: #52525b;
+  --color-zinc-300: #3f3f46;
+  --color-zinc-200: #27272a;
+  --color-zinc-100: #18181b;
+
+  /* Slate — fully inverted */
+  --color-slate-900: #f1f5f9;
+  --color-slate-800: #e2e8f0;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #64748b;
+  --color-slate-300: #334155;
+  --color-slate-200: #1e293b;
+  --color-slate-100: #0f172a;
+
+  /* Soften light-mode accent foregrounds for legibility on white bg */
+  --color-emerald-400: #047857;
+  --color-emerald-300: #047857;
+  --color-cyan-400:    #0e7490;
+  --color-orange-400:  #c2410c;
+  --color-orange-300:  #ea580c;
+  --color-orange-100:  #7c2d12;
+  --color-purple-400:  #7e22ce;
+  --color-rose-400:    #be123c;
+}
+
+html.light ::-webkit-scrollbar-track  { background: #f4f4f5; }
+html.light ::-webkit-scrollbar-thumb  { background: #d4d4d8; border-radius: 3px; }
+html.light ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
 
 .playground-card {
   @apply transition-all duration-200 cursor-pointer border-l-4;
