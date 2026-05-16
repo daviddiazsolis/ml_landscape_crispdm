@@ -3221,6 +3221,32 @@ const FrameworkSection = ({ activeId, setActiveId, onHover, language }: { active
             </div>
           </div>
         </div>
+
+        {/* KDD Pipeline Diagram — linear 5-step flow */}
+        <div className="mt-16 p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl">
+          <h4 className="text-emerald-500 font-bold text-xs uppercase tracking-widest mb-6 text-center">{t.framework.whatIsKdd}</h4>
+          <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-2">
+            {t.framework.kddSteps.map((step: string, i: number) => {
+              const Icon = [Database, Search, Layers, Cpu, CheckCircle2][i] ?? Database;
+              return (
+                <React.Fragment key={i}>
+                  <div className="flex-1 flex flex-col items-center text-center p-4 bg-zinc-950 border border-zinc-800 rounded-xl">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 mb-3">
+                      <Icon size={18} />
+                    </div>
+                    <span className="text-[9px] font-mono text-emerald-500 mb-1">0{i + 1}</span>
+                    <span className="text-[11px] font-semibold text-zinc-300 leading-tight">{step}</span>
+                  </div>
+                  {i < t.framework.kddSteps.length - 1 && (
+                    <div className="flex items-center justify-center text-zinc-600 shrink-0 rotate-90 md:rotate-0">
+                      <ArrowRight size={18} />
+                    </div>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* KDD: Sorting Game + Quiz — placed right after the CRISP-DM vs KDD theory so the games make sense */}
