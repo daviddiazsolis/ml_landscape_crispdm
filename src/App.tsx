@@ -3159,14 +3159,6 @@ const FrameworkSection = ({ activeId, setActiveId, onHover, language }: { active
       {/* NEW: Project Effort Visualization */}
       <ProjectEffortSection language={language} />
 
-      {/* KDD: Sorting Game + Quiz (relocated from Lab to align with CRISP-DM vs KDD discussion below) */}
-      <div className="py-16 px-8 bg-zinc-950 border-t border-zinc-800">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12">
-          <KDDSortingGame language={language} />
-          <KDDQuiz language={language} />
-        </div>
-      </div>
-
       {/* NEW: Continuous Learning Section (Full Width) */}
       <div className="border-b border-white/5">
         <ContinuousLearningSection language={language} />
@@ -3228,6 +3220,14 @@ const FrameworkSection = ({ activeId, setActiveId, onHover, language }: { active
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* KDD: Sorting Game + Quiz — placed right after the CRISP-DM vs KDD theory so the games make sense */}
+      <div className="py-16 px-8 bg-zinc-950 border-t border-zinc-800">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12">
+          <KDDSortingGame language={language} />
+          <KDDQuiz language={language} />
         </div>
       </div>
 
