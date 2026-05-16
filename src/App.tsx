@@ -3538,14 +3538,7 @@ function AppShell() {
   const [viewMode, setViewMode] = useState<ViewMode>('maturity');
   const [activeId, setActiveId] = useState<StageId>('business');
   const [hoverId, setHoverId] = useState<StageId | null>(null);
-  const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('app_lang');
-    return saved === 'es' || saved === 'en' ? saved : 'en';
-  });
-
-  useEffect(() => {
-    localStorage.setItem('app_lang', language);
-  }, [language]);
+  const [language, setLanguage] = useState<Language>('en');
 
   const effectiveActiveId = hoverId || activeId;
   const t = translations[language].footer;
