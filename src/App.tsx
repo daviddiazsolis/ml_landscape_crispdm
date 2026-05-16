@@ -54,7 +54,7 @@ const translations = {
     },
     footer: {
       created: "Created by",
-      attribution: "This site was live coded with the help of Google AI Studio.",
+      attribution: "This site was 'live coded' with the help of generative AI.",
       website: "Website",
       github: "GitHub"
     },
@@ -636,7 +636,7 @@ const translations = {
     },
     footer: {
       created: "Creado por",
-      attribution: "Este sitio fue programado en vivo con la ayuda de Google AI Studio.",
+      attribution: "Este sitio fue 'live coded' con la ayuda de IA generativa.",
       website: "Sitio Web",
       github: "GitHub"
     },
